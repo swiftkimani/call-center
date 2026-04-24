@@ -28,3 +28,18 @@ frontend/
 ├── src/lib                    # env, HTTP client, shared utilities
 └── components.json            # shadcn/ui registry config
 ```
+
+## API Door
+
+Use [src/lib/http/backend-gateway.ts](/home/swift/Projects/call-center/frontend/src/lib/http/backend-gateway.ts) as the single frontend entry point for backend integration.
+It mirrors the current Go routes for:
+
+- auth
+- me
+- agents
+- calls
+- campaigns
+- customers
+- supervisor
+- reports
+- websocket paths

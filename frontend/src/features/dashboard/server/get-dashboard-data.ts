@@ -1,15 +1,15 @@
 import "server-only";
 
-import { apiClient, optionalApiClient } from "@/lib/http/api-client";
-import type { ApiResponse, Campaign, CallRecord, Me } from "@/lib/http/types";
+import { backendGateway } from "@/lib/http/backend-gateway";
+import type { Campaign, CallRecord } from "@/lib/http/types";
 import type { DashboardData } from "@/features/dashboard/types";
 
 export async function getDashboardData(): Promise<DashboardData> {
   const [health, me, campaigns, calls] = await Promise.all([
-    apiClient.health(),
-    optionalApiClient<ApiResponse<Me>>("/api/v1/me"),
-    optionalApiClient<ApiResponse<Campaign[]>>("/api/v1/campaigns?limit=5"),
-    optionalApiClient<ApiResponse<CallRecord[]>>("/api/v1/calls?limit=6"),
+    backendGateway.health(),
+    backendGateway.me.get().catch(() => null),
+    backendGateway.campaigns.list({ limit: 5 }).catch(() => null),
+    backendGateway.calls.list({ limit: 6 }).catch(() => null),
   ]);
 
   const resolvedCampaigns = campaigns?.success && Array.isArray(campaigns.data) ? campaigns.data : fallbackCampaigns;

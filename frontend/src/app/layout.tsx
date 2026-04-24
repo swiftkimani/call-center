@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Call Center Command",
-  description: "Next.js 16 dashboard for the Go call center platform.",
+  title: "Kijani Voice",
+  description: "Call center workspace for agents, supervisors, campaigns, and reports.",
 };
 
 export default function RootLayout({

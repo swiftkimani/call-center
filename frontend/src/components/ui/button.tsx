@@ -8,10 +8,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "liquid-button text-primary-foreground hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(15,76,129,0.24)]",
-        secondary: "glass-chip text-secondary-foreground hover:bg-white/70",
-        outline: "glass-chip text-foreground hover:bg-white/72",
-        glass: "glass-chip text-foreground hover:-translate-y-0.5",
+        default: "liquid-button text-primary-foreground hover:-translate-y-0.5",
+        secondary: "border border-border bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        outline: "border border-border bg-white/80 text-foreground hover:bg-white",
+        glass: "glass-chip text-foreground hover:bg-white",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -19,18 +19,17 @@ export function SidebarNav() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-start gap-3 rounded-[1.2rem] px-4 py-3 transition-all",
+              "flex items-start gap-3 rounded-[1rem] border px-4 py-3 transition-colors",
               active
-                ? "liquid-button text-white shadow-md"
-                : "glass-chip text-foreground hover:-translate-y-0.5 hover:bg-white/70",
+                ? "border-primary/15 bg-primary/[0.06] text-foreground"
+                : "border-transparent text-foreground hover:border-border hover:bg-white/60",
             )}
           >
-            <div className={cn("rounded-xl p-2", active ? "bg-white/10 text-amber-300" : "bg-secondary text-primary")}>
+            <div className={cn("rounded-xl p-2", active ? "bg-primary text-primary-foreground" : "bg-secondary text-primary")}>
               <item.icon className="h-4 w-4" />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold">{item.label}</p>
-              <p className={cn("mt-1 text-xs leading-5", active ? "text-slate-300" : "text-muted-foreground")}>{item.detail}</p>
             </div>
           </Link>
         );

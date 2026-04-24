@@ -1,6 +1,7 @@
 import "server-only";
 
-import { getApiBaseUrl, getApiToken } from "@/lib/env";
+import { getSessionAccessToken } from "@/lib/auth/session";
+import { getApiBaseUrl } from "@/lib/env";
 import type { HealthCheck } from "@/lib/http/types";
 
 type RequestInitWithNext = RequestInit & {
@@ -11,7 +12,7 @@ type RequestInitWithNext = RequestInit & {
 };
 
 async function request<T>(path: string, init?: RequestInitWithNext): Promise<T> {
-  const token = getApiToken();
+  const token = await getSessionAccessToken();
   const headers = new Headers(init?.headers);
 
   if (token) {
@@ -36,6 +37,27 @@ async function request<T>(path: string, init?: RequestInitWithNext): Promise<T> 
 }
 
 export const apiClient = {
+  get: <T>(path: string, init?: RequestInitWithNext) => request<T>(path, init),
+  post: <T>(path: string, body?: unknown, init?: RequestInitWithNext) =>
+    request<T>(path, {
+      ...init,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...Object.fromEntries(new Headers(init?.headers).entries()),
+      },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    }),
+  put: <T>(path: string, body?: unknown, init?: RequestInitWithNext) =>
+    request<T>(path, {
+      ...init,
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...Object.fromEntries(new Headers(init?.headers).entries()),
+      },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    }),
   health: async (): Promise<HealthCheck> => {
     try {
       const result = await request<string>("/healthz", {

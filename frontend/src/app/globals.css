@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f7fb;
+  --background: #edf3f7;
   --foreground: #142033;
-  --card: rgba(255, 255, 255, 0.92);
+  --card: rgba(255, 255, 255, 0.68);
   --card-foreground: #142033;
   --popover: #ffffff;
   --popover-foreground: #142033;
   --primary: #0f4c81;
   --primary-foreground: #f8fbff;
-  --secondary: #e8eef6;
+  --secondary: #dfe9f2;
   --secondary-foreground: #1b304d;
   --muted: #edf2f7;
   --muted-foreground: #66758a;
@@ -17,8 +17,8 @@
   --accent-foreground: #fff7ed;
   --destructive: #b91c1c;
   --destructive-foreground: #fef2f2;
-  --border: rgba(20, 32, 51, 0.1);
-  --input: rgba(255, 255, 255, 0.9);
+  --border: rgba(20, 32, 51, 0.12);
+  --input: rgba(255, 255, 255, 0.62);
   --ring: rgba(15, 76, 129, 0.25);
   --radius: 1.25rem;
 }
@@ -58,9 +58,10 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(15, 76, 129, 0.08), transparent 24%),
-    radial-gradient(circle at top right, rgba(217, 119, 6, 0.08), transparent 24%),
-    linear-gradient(180deg, #f8fafc 0%, #f2f6fb 100%);
+    radial-gradient(circle at 0% 0%, rgba(15, 76, 129, 0.14), transparent 26%),
+    radial-gradient(circle at 100% 0%, rgba(217, 119, 6, 0.12), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(21, 95, 134, 0.1), transparent 28%),
+    linear-gradient(180deg, #f7fbfd 0%, #e9f1f6 48%, #eef4f8 100%);
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -72,4 +73,43 @@ a {
 
 ::selection {
   background: rgba(15, 76, 129, 0.16);
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.56));
+  box-shadow:
+    0 20px 60px rgba(20, 32, 51, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+}
+
+.glass-chip {
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow:
+    0 10px 25px rgba(20, 32, 51, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(18px);
+}
+
+.liquid-button {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(16, 34, 55, 0.08);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.82), transparent 32%),
+    linear-gradient(135deg, rgba(15, 76, 129, 0.95), rgba(22, 49, 77, 0.92));
+  box-shadow:
+    0 16px 35px rgba(15, 76, 129, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.liquid-button::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }

@@ -20,6 +20,99 @@ Document version 1.0 · April 2026
 
 ---
 
+## Next Steps
+
+> **Current status (April 2026):** Infrastructure is up, all 9 DB migrations applied, seed data loaded, and the API server starts and authenticates successfully. The frontend scaffold exists. What follows is the ordered list of work remaining before a real call can complete.
+
+### 1. Wire the frontend to the backend
+
+The Next.js app in `frontend/` is scaffolded but not yet connected to the live API.
+
+```bash
+# Copy the example env and point it at the local API
+cp frontend/.env.local.example frontend/.env.local
+# Edit NEXT_PUBLIC_API_URL=http://localhost:8080
+
+cd frontend && npm install && npm run dev
+```
+
+Log in at `http://localhost:3000` using the seeded credentials:
+
+| Email | Password | Role |
+|---|---|---|
+| admin@test.local | Admin1234! | admin |
+| supervisor@test.local | Admin1234! | supervisor |
+| agent@test.local | Admin1234! | agent |
+
+### 2. Start the background worker
+
+The worker process consumes RabbitMQ messages for recording uploads and async jobs. Run it alongside the API in a separate terminal:
+
+```bash
+cd backend && make worker
+```
+
+### 3. Add telephony credentials
+
+The platform routes calls through Africa's Talking (or Twilio). Add your provider credentials to `backend/.env`:
+
+```bash
+# Africa's Talking
+AT_API_KEY=your_key
+AT_USERNAME=your_username
+AT_WEBHOOK_SECRET=your_webhook_secret
+
+# Set the public URL so the provider can reach your webhooks
+BASE_URL=https://your-domain.com   # use ngrok for local testing
+```
+
+For local development, expose the API with [ngrok](https://ngrok.com):
+
+```bash
+ngrok http 8080
+# Copy the HTTPS URL → set BASE_URL in .env → restart the API
+```
+
+Then point your Africa's Talking voice number's callback URL to `https://<ngrok-host>/webhooks/voice/inbound`.
+
+### 4. Run the database migrations (already done — for reference)
+
+```bash
+cd backend && make migrate
+```
+
+To reseed dev data at any point:
+
+```bash
+cd backend && make seed
+```
+
+### 5. Feature work remaining (Week 2–3 scope)
+
+These are the backend handlers and frontend components that are scaffolded but need real implementations:
+
+| Area | Status | File(s) |
+|---|---|---|
+| Agent status toggle (available / break / offline) | Handler stub | `internal/transport/http/handlers/agents.go` |
+| Inbound call webhook → queue → agent ring | Partial | `internal/transport/http/webhooks/africas_talking.go` |
+| WebSocket agent channel (`/ws/agent`) | Hub wired, events TBD | `internal/transport/ws/handler.go`, `internal/hub/` |
+| Outbound click-to-dial | Handler stub | `internal/transport/http/handlers/calls.go` |
+| Campaign dialer worker | Stub | `internal/campaigns/worker.go` |
+| Recording download + MinIO upload worker | Stub | `internal/recordings/worker.go` |
+| Supervisor whisper / barge | Handler stub | `internal/transport/http/handlers/supervisor.go` |
+| Frontend agent workspace (softphone + call card) | Scaffolded | `frontend/src/app/` |
+| Frontend supervisor cockpit (live queue grid) | Scaffolded | `frontend/src/app/` |
+
+### 6. Before going to production
+
+- [ ] Replace all `dev-*` secrets in `backend/.env` with strong, randomly generated values (JWT secrets, at minimum).
+- [ ] Set up NGINX with TLS in front of both the API (`:8080`) and the Next.js app (`:3000`).
+- [ ] Configure the MinIO lifecycle policy to move recordings to cold storage after 30 days and delete after 90.
+- [ ] Run the load test suite (`scripts/load/`) against staging before cutting over.
+- [ ] Complete the go-live checklist in [Section 15](#15-go-live-checklist).
+
+---
+
 ## How to read this document
 
 This blueprint is written to be usable by every role that touches the project. Non-engineers can read Sections 1, 2, 10, 11, and 16 to understand the vision, architecture at a glance, project plan, and risks. Engineers should read front to back; infrastructure and DevOps teams will spend most of their time in Sections 3, 7, 9, and 13. Designers and frontend engineers should focus on Sections 3, 5, and 8.

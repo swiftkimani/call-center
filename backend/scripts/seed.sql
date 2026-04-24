@@ -10,21 +10,21 @@ INSERT INTO users (id, email, password_hash, full_name, role) VALUES
   (
     '00000000-0000-0000-0000-000000000010',
     'admin@test.local',
-    '$argon2id$v=19$m=65536,t=2,p=4$c2FsdHNhbHRzYWx0c2Fs$dummyhashreplacedbybootstrap',
+    '$argon2id$v=19$m=65536,t=2,p=4$kTuV28t9cqSJi9lHcE0I3A$/IdrAZJpww4EScDVcyMPKF+WEiCt4nOEJsqGjmiuGVA',
     'Admin User',
     'admin'
   ),
   (
     '00000000-0000-0000-0000-000000000011',
     'supervisor@test.local',
-    '$argon2id$v=19$m=65536,t=2,p=4$c2FsdHNhbHRzYWx0c2Fs$dummyhashreplacedbybootstrap',
+    '$argon2id$v=19$m=65536,t=2,p=4$OCuStBCtxdOkKJvsML8VDQ$pZcoKjJtPGWaeNJCHxDPuE1XaPCNqRZa+Ak4byipa1U',
     'Supervisor User',
     'supervisor'
   ),
   (
     '00000000-0000-0000-0000-000000000012',
     'agent@test.local',
-    '$argon2id$v=19$m=65536,t=2,p=4$c2FsdHNhbHRzYWx0c2Fs$dummyhashreplacedbybootstrap',
+    '$argon2id$v=19$m=65536,t=2,p=4$5Hob6B9xespVxAKuXUxXAw$nYVnljIgnY35ePS2G16oy7g275ya9XeBldQMKOOsb9Q',
     'Agent User',
     'agent'
   )

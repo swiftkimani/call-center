@@ -2,3 +2,10 @@ bin/
 frontend/node_modules/
 frontend/.next/
 frontend/out/
+
+# AI tool files
+.claude/
+.codex
+
+# Backend env (contains secrets)
+backend/.env

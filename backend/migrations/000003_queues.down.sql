@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS queue_agents;
+DROP TABLE IF EXISTS queues;
